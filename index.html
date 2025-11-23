@@ -2,221 +2,257 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<title>Rifa Navideña Premium</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rifa Navideña</title>
 
-<!-- TIPOGRAFÍAS PREMIUM -->
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Lobster&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    background: #f2f2f2;
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
+    body {
+        background: #06244a;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        padding: 30px 0;
+    }
 
-/* TARJETA PRINCIPAL */
-#card {
-    width: 360px;
-    background: white;
-    border-radius: 22px;
-    padding: 20px;
-    background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    border: 4px solid #ffffffd5;
-}
+    #card {
+        width: 360px;
+        background-image: url("https://i.imgur.com/mf3QMKb.jpeg");
+        background-size: cover;
+        background-position: center;
+        padding: 20px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 3px solid white;
+    }
 
-/* CONTENEDOR PARA LA CAPTURA 1080x1920 */
-#clon {
-    width: 1080px;
-    height: 1920px;
-    background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
-    background-size: cover;
-    background-position: center;
-    padding: 80px;
-    display: none;
-}
+    .titulo {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 2px 2px 6px #000;
+        margin-bottom: 5px;
+        font-family: "Lobster", cursive;
+    }
 
-/* Título estilo anuncio */
-.title {
-    text-align: center;
-    font-size: 42px;
-    line-height: 42px;
-    font-family: 'Bebas Neue', sans-serif;
-    color: #ffffff;
-    text-shadow: 0 0 10px black;
-    margin-bottom: 10px;
-    font-weight: 900;
-}
+    .sub {
+        color: white;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: 600;
+        text-shadow: 1px 1px 3px #000;
+    }
 
-/* Nequi resaltado */
-.nequi-box {
-    background: #ffffffd9;
-    padding: 12px;
-    border-radius: 14px;
-    border: 3px solid #d6006e;
-    text-align: center;
-    margin-bottom: 14px;
-}
+    .boyaca {
+        color: #ffeb3b;
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px #000;
+    }
 
-.nequi-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    color: #d6006e;
-    margin: 0;
-}
+    .precio {
+        text-align: center;
+        font-size: 45px;
+        color: #FFC400;
+        font-weight: 900;
+        text-shadow: 2px 2px 4px #000;
+    }
 
-.nequi-number {
-    font-size: 28px;
-    font-weight: 900;
-    color: #000;
-}
+    .nequi-box {
+        background: rgba(255,255,255,0.95);
+        padding: 12px;
+        text-align: center;
+        border-radius: 12px;
+        font-size: 20px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        font-weight: 900;
+        color: #003976;
+        border: 2px solid #003976;
+        box-shadow: 0 0 10px rgba(255,255,255,0.7);
+    }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-}
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-bottom: 20px;
+    }
 
-.num {
-    background: rgba(255,255,255,0.9);
-    padding: 10px 0;
-    border-radius: 12px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 700;
-    text-align: center;
-    transition: .2s;
-    border: 2px solid #ffffff;
-}
+    .num {
+        width: 100%;
+        padding: 10px 0;
+        background: rgba(255,255,255,0.95);
+        border-radius: 10px;
+        text-align: center;
+        font-weight: 700;
+        color: #003976;
+        cursor: pointer;
+        border: 2px solid transparent;
+        font-size: 15px;
+        transition: 0.2s;
+    }
 
-.num:hover {
-    background: #ffe07f;
-}
+    .num.vendido {
+        background: #e52727;
+        color: white;
+        border: 2px solid white;
+        box-shadow: 0 0 6px #000;
+    }
 
-.vendido {
-    background: #cf0000 !important;
-    color: white !important;
-    border: 2px solid #ffffff;
-}
+    .controls {
+        text-align: center;
+        margin-top: 15px;
+    }
 
-/* BOTONES — NO APARECEN EN LA CAPTURA */
-.controls {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+    #downloadBtn, #clearBtn {
+        padding: 10px 15px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        width: 85%;
+        margin: 6px auto;
+        color: white;
+        font-weight: 700;
+        display: block;
+    }
 
-button {
-    background: #0066ff;
-    border: none;
-    padding: 10px 16px;
-    color: white;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 14px;
-}
+    #downloadBtn { background: #0066ff; }
+    #clearBtn { background: #119c47; }
 
-button:hover {
-    background: #004ecc;
-}
+    #pie {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 10px;
+        color: white;
+        text-shadow: 1px 1px 3px #000;
+        font-weight: 600;
+    }
 </style>
 
-<!-- HTML2CANVAS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 <body>
 
 <div id="card">
-    <div class="title">🎄 RIFA NAVIDEÑA 🎁</div>
+    <div class="titulo">🎄 Gran Rifa Navideña 🎄</div>
 
-    <div class="nequi-box">
-        <div class="nequi-title">PAGA POR NEQUI</div>
-        <div class="nequi-number">314 815 7789</div>
-    </div>
+    <div class="sub">Premio: $300.000 — Sorteo 24 de diciembre</div>
 
-    <div id="grid" class="grid"></div>
+    <div class="boyaca">🎟 Se juega con la Lotería de Boyacá 🎟</div>
 
-    <!-- Botones fuera de captura -->
+    <div class="precio">$10.000</div>
+
+    <div class="nequi-box">Nequi: 3118503614</div>
+
+    <div id="numeros" class="grid"></div>
+
     <div class="controls">
-        <button onclick="descargar()">Descargar</button>
-        <button onclick="limpiar()">Limpiar</button>
+        <button id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
+        <button id="clearBtn">🧹 Limpiar</button>
     </div>
+
+    <div id="pie">Toca un número para marcarlo como vendido.</div>
 </div>
 
-<!-- CLON PARA LA CAPTURA -->
-<div id="clon"></div>
 
 <script>
-/* Crear la grid */
-const grid = document.getElementById("grid");
-for (let i = 1; i <= 100; i++) {
-    let div = document.createElement("div");
-    div.className = "num";
-    div.textContent = i;
-    div.onclick = () => toggle(i, div);
-    grid.appendChild(div);
+/* -------------------------
+   GENERAR NÚMEROS
+------------------------- */
+const cont = document.getElementById("numeros");
+let estado = JSON.parse(localStorage.getItem("rifa2024")) || {};
+
+for (let i = 0; i < 100; i++) {
+    const b = document.createElement("div");
+    b.className = "num";
+    b.textContent = i.toString().padStart(2, "0");
+
+    if (estado[b.textContent]) b.classList.add("vendido");
+
+    b.onclick = () => {
+        b.classList.toggle("vendido");
+        estado[b.textContent] = b.classList.contains("vendido");
+        localStorage.setItem("rifa2024", JSON.stringify(estado));
+    };
+
+    cont.appendChild(b);
 }
 
-/* Restaurar vendidos */
-window.onload = () => {
-    const vendidos = JSON.parse(localStorage.getItem("vendidos") || "[]");
-    vendidos.forEach(n => {
-        let el = [...document.querySelectorAll(".num")].find(x => x.textContent == n);
-        if (el) el.classList.add("vendido");
+/* -------------------------
+   DESCARGAR PERFECTO 1080x1920
+------------------------- */
+document.getElementById("downloadBtn").onclick = async () => {
+    const original = document.getElementById("card");
+
+    // Clon limpio sin botones
+    const clone = original.cloneNode(true);
+    clone.querySelector(".controls").style.display = "none";
+
+    // fondo explícito para evitar errores
+    clone.style.backgroundImage = 'url("https://i.imgur.com/mf3QMKb.jpeg")';
+
+    clone.style.position = "absolute";
+    clone.style.left = "-9999px";
+    clone.style.width = "360px";
+
+    document.body.appendChild(clone);
+    await new Promise(r => setTimeout(r, 50));
+
+    const render = await html2canvas(clone, {
+        backgroundColor: null,
+        useCORS: true,
+        scale: 3
     });
+
+    document.body.removeChild(clone);
+
+    // CREAR LIENZO 1080x1920
+    const final = document.createElement("canvas");
+    final.width = 1080;
+    final.height = 1920;
+    const ctx = final.getContext("2d");
+
+    ctx.fillStyle = "#06244a";
+    ctx.fillRect(0, 0, final.width, final.height);
+
+    const scale = Math.min(
+        final.width / render.width,
+        final.height / render.height
+    );
+
+    const w = render.width * scale;
+    const h = render.height * scale;
+
+    ctx.drawImage(render, (1080 - w) / 2, (1920 - h) / 2, w, h);
+
+    const a = document.createElement("a");
+    a.download = "rifa_1080x1920.png";
+    a.href = final.toDataURL("image/png");
+    a.click();
 };
 
-/* Marcar vendido */
-function toggle(num, el) {
-    el.classList.toggle("vendido");
-
-    const vendidos = [...document.querySelectorAll(".vendido")].map(x => x.textContent);
-    localStorage.setItem("vendidos", JSON.stringify(vendidos));
-}
-
-/* Limpiar */
-function limpiar() {
-    document.querySelectorAll(".num").forEach(x => x.classList.remove("vendido"));
-    localStorage.removeItem("vendidos");
-}
-
-/* Descargar */
-function descargar() {
-    const card = document.getElementById("card");
-    const clon = document.getElementById("clon");
-
-    clon.innerHTML = "";
-    const copia = card.cloneNode(true);
-
-    copia.querySelector(".controls").style.display = "none";
-    copia.style.transform = "scale(3.05)";
-    copia.style.transformOrigin = "top left";
-
-    clon.appendChild(copia);
-    clon.style.display = "block";
-
-    html2canvas(clon, { scale: 1, useCORS: true }).then(canvas => {
-        let link = document.createElement("a");
-        link.download = "rifa.png";
-        link.href = canvas.toDataURL();
-        link.click();
-
-        clon.style.display = "none";
-    });
-}
+/* -------------------------
+   LIMPIAR
+------------------------- */
+document.getElementById("clearBtn").onclick = () => {
+    document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
+    localStorage.removeItem("rifa2024");
+};
 </script>
 
 </body>
 </html>
+
 
 
 
