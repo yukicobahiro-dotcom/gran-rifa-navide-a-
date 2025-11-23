@@ -4,113 +4,124 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rifa 00-99</title>
+
 <style>
     body {
         margin: 0;
-        padding: 0;
+        background: #f2f2f2;
         font-family: 'Poppins', sans-serif;
-        background: url('https://i.imgur.com/cG3oRZk.gif') center/cover no-repeat fixed;
-        color: white;
         text-align: center;
     }
 
-    .overlay {
-        backdrop-filter: blur(4px);
-        padding: 20px;
+    /* CONTENEDOR QUE SE DESCARGA */
+    .captura {
+        width: 1080px;
+        height: 1920px;
+        margin: 0 auto;
+        padding: 40px;
+        box-sizing: border-box;
+        background: url('https://i.imgur.com/cG3oRZk.gif') center/cover no-repeat;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        text-shadow: 2px 2px 5px black;
     }
 
     .title {
-        font-size: 38px;
+        font-size: 60px;
         font-weight: 900;
-        text-shadow: 2px 2px 5px black;
+        margin-top: 10px;
     }
 
     .info {
-        font-size: 24px;
+        font-size: 40px;
         font-weight: 700;
-        margin-top: 10px;
-        text-shadow: 2px 2px 5px black;
+        margin: 10px 0;
     }
 
     .nequi {
-        font-size: 30px;
-        font-weight: 900;
-        background: #ffffffaa;
+        font-size: 55px;
+        background: #ffffffcc;
         color: #001a4d;
-        padding: 10px 20px;
-        border-radius: 12px;
-        display: inline-block;
-        margin-top: 10px;
+        padding: 10px 25px;
+        border-radius: 15px;
+        font-weight: 900;
+        margin-top: 15px;
     }
 
     .grid {
+        margin-top: 50px;
         display: grid;
         grid-template-columns: repeat(10, 1fr);
-        gap: 6px;
-        max-width: 350px;
-        margin: 25px auto;
+        gap: 12px;
+        width: 80%;
     }
 
     .num {
-        padding: 12px;
-        font-size: 20px;
-        font-weight: 700;
+        padding: 18px;
         background: #ffffffdd;
         color: #002255;
-        border-radius: 10px;
+        font-size: 38px;
+        font-weight: 900;
+        border-radius: 12px;
         cursor: pointer;
-        transition: 0.2s;
+        transition: .2s;
     }
 
     .num.tachado {
         background: #ff0000dd;
         color: white;
         text-decoration: line-through;
-        transform: scale(0.9);
+        transform: scale(0.85);
     }
 
+    /* Botón que NO aparece en la captura */
     .btn-descargar {
         margin-top: 25px;
-        padding: 12px 25px;
-        font-size: 20px;
+        padding: 15px 30px;
+        font-size: 22px;
         font-weight: 800;
         border-radius: 15px;
-        border: none;
-        background: #0055ff;
+        background: #0066ff;
         color: white;
+        border: none;
         cursor: pointer;
     }
 </style>
+
 </head>
 <body>
-<div class="overlay">
+
+<div id="captura" class="captura">
     <div class="title">🎉 RIFA 00 — 99 🎉</div>
     <div class="info">Premio: <b>$300.000</b></div>
     <div class="info">Sortea: <b>24 de diciembre</b></div>
-    <div class="info">Valor: <b style="font-size:32px; color:#ffea00;">$10.000</b></div>
+    <div class="info">Valor: <b style="color:#ffea00;">$10.000</b></div>
+
     <div class="nequi">Nequi: 3118503614</div>
 
     <div class="grid" id="grid"></div>
-
-    <button class="btn-descargar" onclick="descargarImagen()">Descargar imagen lista para WhatsApp</button>
 </div>
 
+<button class="btn-descargar" onclick="descargarImagen()">Descargar imagen lista para WhatsApp</button>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script>
-// Crear los números
 const grid = document.getElementById("grid");
 
+// Generar números
 for (let i = 0; i < 100; i++) {
     const num = document.createElement("div");
     num.className = "num";
     num.textContent = i.toString().padStart(2, "0");
 
-    // Restaurar estado guardado
     if (localStorage.getItem("num" + i) === "1") {
         num.classList.add("tachado");
     }
 
-    // Click para tachar
     num.onclick = () => {
         num.classList.toggle("tachado");
         localStorage.setItem("num" + i, num.classList.contains("tachado") ? "1" : "0");
@@ -119,11 +130,13 @@ for (let i = 0; i < 100; i++) {
     grid.appendChild(num);
 }
 
-// Descargar como imagen
+// Descargar solo el recuadro (sin el botón)
 function descargarImagen() {
-    html2canvas(document.body).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'rifa_whatsapp.png';
+    const area = document.getElementById("captura");
+
+    html2canvas(area, { scale: 3 }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "rifa_estado_whatsapp.png";
         link.href = canvas.toDataURL();
         link.click();
     });
@@ -131,4 +144,3 @@ function descargarImagen() {
 </script>
 </body>
 </html>
-
