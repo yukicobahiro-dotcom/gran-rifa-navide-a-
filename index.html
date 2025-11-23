@@ -107,8 +107,6 @@
         box-shadow: 0 0 6px #000;
     }
 
-    .controls { display: none; }
-
     #pie {
         text-align: center;
         font-size: 16px;
@@ -117,6 +115,27 @@
         text-shadow: 2px 2px 4px #000;
         font-weight: 700;
     }
+
+    /* BOTONES NUEVOS */
+    #acciones {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 450px;
+    }
+
+    .btn {
+        padding: 14px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+    .descargar { background: #ffca28; color: #000; }
+    .limpiar { background: #e53935; color: white; }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -124,20 +143,28 @@
 </head>
 <body>
 
-<div id="card">
-    <div class="titulo">🎄 Gran Rifa Navideña 🎄</div>
+<div>
+    <div id="card">
+        <div class="titulo">🎄 Gran Rifa Navideña 🎄</div>
 
-    <div class="sub">Premio: $300.000 — Sorteo 24 de diciembre</div>
+        <div class="sub">Premio: $300.000 — Sorteo 24 de diciembre</div>
 
-    <div class="boyaca">🎟 Juega con la Lotería de Boyacá 🎟</div>
+        <div class="boyaca">🎟 Juega con la Lotería de Boyacá 🎟</div>
 
-    <div class="precio">$10.000</div>
+        <div class="precio">$10.000</div>
 
-    <div class="nequi-box">Nequi: 3118503614</div>
+        <div class="nequi-box">Nequi: 3118503614</div>
 
-    <div id="numeros" class="grid"></div>
+        <div id="numeros" class="grid"></div>
 
-    <div id="pie">Toca un número para marcarlo como vendido.</div>
+        <div id="pie">Toca un número para marcarlo como vendido.</div>
+    </div>
+
+    <!-- BOTONES ABAJO DE LA TARJETA -->
+    <div id="acciones">
+        <button class="btn descargar" onclick="descargarImagen()">📥 Descargar imagen</button>
+        <button class="btn limpiar" onclick="limpiarTodo()">🗑 Limpiar marcados</button>
+    </div>
 </div>
 
 <script>
@@ -164,11 +191,9 @@ for (let i = 0; i < 100; i++) {
 }
 
 /* -------------------------
-   DESCARGA PERFECTA SIN ESPACIOS 1080x1920
+   DESCARGAR SOLO CON BOTÓN
 ------------------------- */
-document.body.onclick = async (e) => {
-    if (!e.target.closest('#card')) return;
-
+async function descargarImagen() {
     const original = document.getElementById("card");
 
     const clone = original.cloneNode(true);
@@ -206,12 +231,19 @@ document.body.onclick = async (e) => {
     a.download = "rifa_1080x1920.png";
     a.href = final.toDataURL("image/png");
     a.click();
-};
+}
+
+/* -------------------------
+   LIMPIAR LOCALSTORAGE + PANTALLA
+------------------------- */
+function limpiarTodo() {
+    localStorage.removeItem("rifa2024");
+    document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
+}
 </script>
 
 </body>
 </html>
-
 
 
 
