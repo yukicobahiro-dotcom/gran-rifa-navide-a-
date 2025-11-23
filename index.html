@@ -1,297 +1,208 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>🎄 GRAN RIFA NAVIDEÑA 🎄</title>
-
-<!-- Fuente -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rifa Navideña</title>
 
 <style>
-  :root{
-    --card-bg-img: url('https://i.imgur.com/mf3QMKb.jpeg'); 
-    --accent: #ffc107;
-    --nequi-color: #003a73;
-    --text: #0b2136;
-  }
+    body {
+        background: #06244a;
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        padding: 30px 0;
+    }
 
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    background:#0b2340;
-    font-family:"Poppins", system-ui;
-    padding:18px;
-  }
+    #card {
+        width: 360px;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(6px);
+        padding: 20px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 3px solid white;
+    }
 
-  /* ----- CONTENEDOR SIN RECORTES ----- */
-  .card-wrap{
-    width:360px;
-    max-width:95vw;
-    border-radius:18px;
-    padding:14px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.94));
-    box-shadow:0 12px 30px rgba(0,0,0,0.5);
-    overflow:visible !important;
-    height:auto !important;
-  }
+    .titulo {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 2px 2px 4px #000;
+    }
 
-  .card{
-    position:relative;
-    width:100%;
-    border-radius:14px;
-    padding:18px 14px;
-    overflow:visible !important;
-    background-color: rgba(255,255,255,0.88);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
+    .sub {
+        color: white;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-  /* Fondo */
-  .card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:var(--card-bg-img);
-    background-size:cover;
-    background-position:center;
-    opacity:.25;
-    z-index:0;
-  }
+    .precio {
+        text-align: center;
+        font-size: 40px;
+        color: #FFC400;
+        font-weight: 900;
+    }
 
-  .content{
-    position:relative;
-    z-index:2;
-    width:100%;
-    text-align:center;
-  }
+    .nequi-box {
+        background: white;
+        padding: 12px;
+        text-align: center;
+        border-radius: 12px;
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #003976;
+    }
 
-  .title{
-    font-family:"Montserrat",sans-serif;
-    font-weight:900;
-    font-size:22px;
-    color:#fff;
-    letter-spacing:1px;
-    text-shadow:0 3px 0 rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.25);
-    margin-bottom:6px;
-  }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin-bottom: 20px;
+    }
 
-  .meta{
-    color:#fff;
-    text-shadow:0 1px 2px rgba(0,0,0,.4);
-    font-size:13px;
-    font-weight:600;
-    margin-bottom:12px;
-  }
+    .num {
+        width: 100%;
+        padding: 10px 0;
+        background: white;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: 600;
+        color: #003976;
+        cursor: pointer;
+        border: 2px solid transparent;
+        font-size: 15px;
+        transition: 0.2s;
+    }
 
-  .value{
-    font-family:"Montserrat";
-    font-size:34px;
-    font-weight:900;
-    color:var(--accent);
-    background:rgba(0,0,0,.12);
-    padding:6px 12px;
-    border-radius:10px;
-    margin-top:6px;
-    box-shadow:0 6px 20px rgba(0,0,0,.25);
-  }
+    .num.vendido {
+        background: #e52727;
+        color: white;
+    }
 
-  .nequi{
-    margin-top:12px;
-    background:white;
-    padding:10px 14px;
-    border-radius:12px;
-    font-weight:900;
-    color:var(--nequi-color);
-    font-size:18px;
-    box-shadow:0 6px 16px rgba(0,0,0,.18);
-  }
+    .controls {
+        text-align: center;
+        margin-top: 15px;
+    }
 
-  /* Tabla 00–99 */
-  .grid{
-    margin-top:14px;
-    display:grid;
-    grid-template-columns:repeat(10,1fr);
-    gap:8px;
-    width:100%;
-    padding:6px;
-  }
+    #downloadBtn, #clearBtn {
+        padding: 10px 15px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        width: 85%;
+        display: block;
+        margin: 8px auto;
+        color: white;
+        font-weight: 600;
+    }
 
-  .cell{
-    background:white;
-    border-radius:10px;
-    padding:6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-weight:800;
-    color:#0b3a66;
-    font-size:15px;
-    box-shadow:0 4px 8px rgba(3,12,25,.08);
-    transition:.12s;
-  }
+    #downloadBtn {
+        background: #0066ff;
+    }
 
-  .cell.sold{
-    background:#d62828;
-    color:#fff;
-    text-decoration:line-through;
-  }
+    #clearBtn {
+        background: #119c47;
+    }
 
-  .controls{
-    margin-top:14px;
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    flex-wrap:wrap;
-  }
-
-  .btn{
-    background:#0077ff;
-    color:white;
-    padding:8px 12px;
-    border:none;
-    border-radius:12px;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,119,255,.18);
-  }
-
-  .clear{ background:#009688 }
-
-  .smallnote{
-    margin-top:8px;
-    font-size:11px;
-    color:rgba(0,0,0,.6);
-  }
-
-  .no-capture{
-    display:none !important;
-  }
+    #pie {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 10px;
+        color: #333;
+    }
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </head>
 <body>
 
-<div class="card-wrap">
-  <div class="card" id="card">
-    <div class="content">
-      <div class="title">🎄 GRAN RIFA NAVIDEÑA 🎄</div>
-      <div class="meta">Premio: <b>$300.000</b> — Sorteo: <b>24 de diciembre</b></div>
+<div id="card">
+    <div class="titulo">🎄 GRAN RIFA NAVIDEÑA 🎄</div>
+    <div class="sub">Premio: $300.000 — Sorteo: 24 de diciembre</div>
 
-      <div class="value">$10.000</div>
-      <div class="nequi">Nequi: 3118503614</div>
+    <div class="precio">$10.000</div>
+    <div class="nequi-box">Nequi: 3118503614</div>
 
-      <div class="grid" id="grid"></div>
+    <div id="numeros" class="grid"></div>
 
-      <div class="controls">
-        <button class="btn" id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
-        <button class="btn clear" id="clearBtn">🔄 Limpiar</button>
-      </div>
-
-      <div class="smallnote">Toca un número para marcarlo como vendido.</div>
+    <div class="controls">
+        <button id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
+        <button id="clearBtn">🧹 Limpiar</button>
     </div>
-  </div>
+
+    <div id="pie">Toca un número para marcarlo como vendido.</div>
 </div>
 
 
-<!-- html2canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script>
-(()=>{
-  const grid=document.getElementById("grid");
-  const key="rifa_sold_v2";
-  let sold=new Set(JSON.parse(localStorage.getItem(key)||"[]"));
+// GENERAR NÚMEROS
+const cont = document.getElementById("numeros");
+for (let i = 0; i < 100; i++) {
+    const b = document.createElement("div");
+    b.className = "num";
+    b.textContent = i.toString().padStart(2, "0");
+    b.onclick = () => b.classList.toggle("vendido");
+    cont.appendChild(b);
+}
 
-  // generar números
-  for(let i=0;i<100;i++){
-    const n=i.toString().padStart(2,"0");
-    const c=document.createElement("div");
-    c.className="cell";
-    c.textContent=n;
-    c.dataset.num=n;
 
-    if(sold.has(n)) c.classList.add("sold");
+// DESCARGAR (VERSIÓN ESTABLE)
+document.getElementById("downloadBtn").onclick = async () => {
+    const card = document.getElementById("card");
 
-    c.onclick=()=>{
-      if(c.classList.contains("sold")){
-        c.classList.remove("sold");
-        sold.delete(n);
-      } else {
-        c.classList.add("sold");
-        sold.add(n);
-      }
-      localStorage.setItem(key,JSON.stringify([...sold]));
-    };
+    const clone = card.cloneNode(true);
+    const cloneControls = clone.querySelector(".controls");
+    if (cloneControls) cloneControls.style.display = "none";
 
-    grid.appendChild(c);
-  }
+    clone.style.width = card.getBoundingClientRect().width + "px";
+    clone.style.position = "absolute";
+    clone.style.left = "-9999px";
+    clone.style.top = "0";
 
-  // limpiar
-  document.getElementById("clearBtn").onclick=()=>{
-    if(!confirm("¿Limpiar todos los marcados?"))return;
-    sold.clear();
-    document.querySelectorAll(".cell.sold").forEach(el=>el.classList.remove("sold"));
-    localStorage.setItem(key,"[]");
-  };
+    document.body.appendChild(clone);
+    await new Promise(r => setTimeout(r, 60));
 
-  // descargar imagen 1080x1920 completa
-  document.getElementById("downloadBtn").onclick=async()=>{
+    const canvas = await html2canvas(clone, { scale: 3, useCORS: true });
+    document.body.removeChild(clone);
 
-    const card=document.getElementById("card");
-
-    card.style.height="auto";
-    card.style.overflow="visible";
-
-    const controls = document.querySelector(".controls");
-    controls.classList.add("no-capture");
-
-    await new Promise(r=>setTimeout(r,200));
-
-    const canvas = await html2canvas(card,{
-      backgroundColor:null,
-      scale:3,
-      useCORS:true,
-      windowWidth:document.body.scrollWidth,
-      windowHeight:document.body.scrollHeight
-    });
-
-    controls.classList.remove("no-capture");
-
-    // Crear lienzo final 1080×1920
     const final = document.createElement("canvas");
     final.width = 1080;
     final.height = 1920;
     const ctx = final.getContext("2d");
 
-    ctx.fillStyle="#ffffff";
-    ctx.fillRect(0,0,1080,1920);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, final.width, final.height);
 
-    const scale = Math.min(
-      1080 / canvas.width,
-      1920 / canvas.height
-    );
-
+    const scale = Math.min(final.width / canvas.width, final.height / canvas.height);
     const w = canvas.width * scale;
     const h = canvas.height * scale;
 
-    ctx.drawImage(canvas,(1080-w)/2,(1920-h)/2,w,h);
+    ctx.drawImage(canvas, (final.width - w) / 2, (final.height - h) / 2, w, h);
 
     const a = document.createElement("a");
-    a.download="rifa_1080x1920.png";
-    a.href=final.toDataURL("image/png");
+    a.download = "rifa_1080x1920.png";
+    a.href = final.toDataURL("image/png");
     a.click();
-  };
-})();
+};
+
+// LIMPIAR
+document.getElementById("clearBtn").onclick = () => {
+    document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
+};
 </script>
 
 </body>
 </html>
+
 
 
 
