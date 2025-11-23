@@ -18,7 +18,7 @@
     }
 
     #card {
-        width: 360px;
+        width: 450px;
         background-image: url("https://i.imgur.com/mf3QMKb.jpeg");
         background-size: cover;
         background-position: center;
@@ -31,64 +31,64 @@
 
     .titulo {
         text-align: center;
-        font-size: 32px;
+        font-size: 40px;
         font-weight: 900;
         color: #fff;
-        text-shadow: 2px 2px 6px #000;
+        text-shadow: 3px 3px 8px #000;
         margin-bottom: 5px;
         font-family: "Lobster", cursive;
     }
 
     .sub {
         color: white;
-        font-size: 14px;
+        font-size: 18px;
         text-align: center;
         margin-bottom: 10px;
         font-weight: 600;
-        text-shadow: 1px 1px 3px #000;
+        text-shadow: 2px 2px 4px #000;
     }
 
     .boyaca {
         color: #ffeb3b;
-        font-size: 15px;
+        font-size: 20px;
         text-align: center;
-        margin-bottom: 10px;
-        font-weight: 700;
-        text-shadow: 2px 2px 4px #000;
+        margin-bottom: 15px;
+        font-weight: 900;
+        text-shadow: 3px 3px 6px #000;
     }
 
     .precio {
         text-align: center;
-        font-size: 45px;
+        font-size: 55px;
         color: #FFC400;
         font-weight: 900;
-        text-shadow: 2px 2px 4px #000;
+        text-shadow: 3px 3px 6px #000;
     }
 
     .nequi-box {
         background: rgba(255,255,255,0.95);
-        padding: 12px;
+        padding: 15px;
         text-align: center;
-        border-radius: 12px;
-        font-size: 20px;
-        margin-top: 5px;
-        margin-bottom: 20px;
+        border-radius: 15px;
+        font-size: 24px;
+        margin-top: 10px;
+        margin-bottom: 25px;
         font-weight: 900;
         color: #003976;
-        border: 2px solid #003976;
-        box-shadow: 0 0 10px rgba(255,255,255,0.7);
+        border: 3px solid #003976;
+        box-shadow: 0 0 12px rgba(255,255,255,0.8);
     }
 
     .grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
+        gap: 8px;
         margin-bottom: 20px;
     }
 
     .num {
         width: 100%;
-        padding: 10px 0;
+        padding: 12px 0;
         background: rgba(255,255,255,0.95);
         border-radius: 10px;
         text-align: center;
@@ -96,7 +96,7 @@
         color: #003976;
         cursor: pointer;
         border: 2px solid transparent;
-        font-size: 15px;
+        font-size: 17px;
         transition: 0.2s;
     }
 
@@ -107,34 +107,15 @@
         box-shadow: 0 0 6px #000;
     }
 
-    .controls {
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    #downloadBtn, #clearBtn {
-        padding: 10px 15px;
-        font-size: 15px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        width: 85%;
-        margin: 6px auto;
-        color: white;
-        font-weight: 700;
-        display: block;
-    }
-
-    #downloadBtn { background: #0066ff; }
-    #clearBtn { background: #119c47; }
+    .controls { display: none; }
 
     #pie {
         text-align: center;
-        font-size: 13px;
-        margin-top: 10px;
+        font-size: 16px;
+        margin-top: 15px;
         color: white;
-        text-shadow: 1px 1px 3px #000;
-        font-weight: 600;
+        text-shadow: 2px 2px 4px #000;
+        font-weight: 700;
     }
 </style>
 
@@ -148,7 +129,7 @@
 
     <div class="sub">Premio: $300.000 — Sorteo 24 de diciembre</div>
 
-    <div class="boyaca">🎟 Se juega con la Lotería de Boyacá 🎟</div>
+    <div class="boyaca">🎟 Juega con la Lotería de Boyacá 🎟</div>
 
     <div class="precio">$10.000</div>
 
@@ -156,14 +137,8 @@
 
     <div id="numeros" class="grid"></div>
 
-    <div class="controls">
-        <button id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
-        <button id="clearBtn">🧹 Limpiar</button>
-    </div>
-
     <div id="pie">Toca un número para marcarlo como vendido.</div>
 </div>
-
 
 <script>
 /* -------------------------
@@ -189,24 +164,21 @@ for (let i = 0; i < 100; i++) {
 }
 
 /* -------------------------
-   DESCARGAR PERFECTO 1080x1920
+   DESCARGA PERFECTA SIN ESPACIOS 1080x1920
 ------------------------- */
-document.getElementById("downloadBtn").onclick = async () => {
+document.body.onclick = async (e) => {
+    if (!e.target.closest('#card')) return;
+
     const original = document.getElementById("card");
 
-    // Clon limpio sin botones
     const clone = original.cloneNode(true);
-    clone.querySelector(".controls").style.display = "none";
-
-    // fondo explícito para evitar errores
     clone.style.backgroundImage = 'url("https://i.imgur.com/mf3QMKb.jpeg")';
-
+    clone.style.width = "500px";
     clone.style.position = "absolute";
     clone.style.left = "-9999px";
-    clone.style.width = "360px";
 
     document.body.appendChild(clone);
-    await new Promise(r => setTimeout(r, 50));
+    await new Promise(r => setTimeout(r, 80));
 
     const render = await html2canvas(clone, {
         backgroundColor: null,
@@ -216,42 +188,30 @@ document.getElementById("downloadBtn").onclick = async () => {
 
     document.body.removeChild(clone);
 
-    // CREAR LIENZO 1080x1920
     const final = document.createElement("canvas");
     final.width = 1080;
     final.height = 1920;
     const ctx = final.getContext("2d");
 
-    ctx.fillStyle = "#06244a";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, final.width, final.height);
 
-    const scale = Math.min(
-        final.width / render.width,
-        final.height / render.height
-    );
+    const scale = final.height / render.height;
+    const newW = render.width * scale;
+    const x = (1080 - newW) / 2;
 
-    const w = render.width * scale;
-    const h = render.height * scale;
-
-    ctx.drawImage(render, (1080 - w) / 2, (1920 - h) / 2, w, h);
+    ctx.drawImage(render, x, 0, newW, 1920);
 
     const a = document.createElement("a");
     a.download = "rifa_1080x1920.png";
     a.href = final.toDataURL("image/png");
     a.click();
 };
-
-/* -------------------------
-   LIMPIAR
-------------------------- */
-document.getElementById("clearBtn").onclick = () => {
-    document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
-    localStorage.removeItem("rifa2024");
-};
 </script>
 
 </body>
 </html>
+
 
 
 
