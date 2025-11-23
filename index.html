@@ -2,228 +2,223 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rifa Navideña</title>
+<title>Rifa Navideña Premium</title>
+
+<!-- TIPOGRAFÍAS PREMIUM -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-    body {
-        background: #06244a;
-        font-family: "Poppins", sans-serif;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        padding: 30px 0;
-    }
+body {
+    margin: 0;
+    background: #f2f2f2;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
 
-    #card {
-        width: 360px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 20px;
-        padding: 20px;
-        position: relative;
-        overflow: hidden;
-        border: 3px solid white;
-    }
+/* TARJETA PRINCIPAL */
+#card {
+    width: 360px;
+    background: white;
+    border-radius: 22px;
+    padding: 20px;
+    background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    border: 4px solid #ffffffd5;
+}
 
-    /* Fondo navideño SOLO dentro del card */
-    #card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.25;
-        z-index: 0;
-    }
+/* CONTENEDOR PARA LA CAPTURA 1080x1920 */
+#clon {
+    width: 1080px;
+    height: 1920px;
+    background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
+    background-size: cover;
+    background-position: center;
+    padding: 80px;
+    display: none;
+}
 
-    #card * {
-        position: relative;
-        z-index: 2; /* Todo queda por encima del fondo */
-    }
+/* Título estilo anuncio */
+.title {
+    text-align: center;
+    font-size: 42px;
+    line-height: 42px;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #ffffff;
+    text-shadow: 0 0 10px black;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
 
-    .titulo {
-        text-align: center;
-        font-size: 26px;
-        font-weight: 700;
-        color: #fff;
-        text-shadow: 2px 2px 4px #000;
-    }
+/* Nequi resaltado */
+.nequi-box {
+    background: #ffffffd9;
+    padding: 12px;
+    border-radius: 14px;
+    border: 3px solid #d6006e;
+    text-align: center;
+    margin-bottom: 14px;
+}
 
-    .sub {
-        color: white;
-        font-size: 14px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+.nequi-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: #d6006e;
+    margin: 0;
+}
 
-    .precio {
-        text-align: center;
-        font-size: 40px;
-        color: #FFC400;
-        font-weight: 900;
-    }
+.nequi-number {
+    font-size: 28px;
+    font-weight: 900;
+    color: #000;
+}
 
-    .nequi-box {
-        background: white;
-        padding: 12px;
-        text-align: center;
-        border-radius: 12px;
-        font-size: 18px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        font-weight: 700;
-        color: #003976;
-    }
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
 
-    /* GRID ESTABLE & RESPONSIVO */
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        margin-bottom: 20px;
-    }
+.num {
+    background: rgba(255,255,255,0.9);
+    padding: 10px 0;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    text-align: center;
+    transition: .2s;
+    border: 2px solid #ffffff;
+}
 
-    .num {
-        padding: 10px 0;
-        background: white;
-        border-radius: 12px;
-        text-align: center;
-        font-weight: 600;
-        color: #003976;
-        cursor: pointer;
-        font-size: 15px;
-        transition: 0.2s;
-    }
+.num:hover {
+    background: #ffe07f;
+}
 
-    .num.vendido {
-        background: #e52727;
-        color: white;
-    }
+.vendido {
+    background: #cf0000 !important;
+    color: white !important;
+    border: 2px solid #ffffff;
+}
 
-    .controls {
-        text-align: center;
-        margin-top: 15px;
-    }
+/* BOTONES — NO APARECEN EN LA CAPTURA */
+.controls {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 
-    #downloadBtn, #clearBtn {
-        padding: 10px 15px;
-        font-size: 15px;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        width: 85%;
-        display: block;
-        margin: 8px auto;
-        color: white;
-        font-weight: 600;
-    }
+button {
+    background: #0066ff;
+    border: none;
+    padding: 10px 16px;
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-    #downloadBtn { background: #0066ff; }
-    #clearBtn { background: #119c47; }
-
-    #pie {
-        text-align: center;
-        font-size: 13px;
-        margin-top: 10px;
-        color: #333;
-    }
+button:hover {
+    background: #004ecc;
+}
 </style>
 
+<!-- HTML2CANVAS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 <body>
 
 <div id="card">
-    <div class="titulo">🎄 GRAN RIFA NAVIDEÑA 🎄</div>
-    <div class="sub">Premio: $300.000 — Sorteo: 24 de diciembre</div>
+    <div class="title">🎄 RIFA NAVIDEÑA 🎁</div>
 
-    <div class="precio">$10.000</div>
-    <div class="nequi-box">Nequi: 3118503614</div>
-
-    <div id="numeros" class="grid"></div>
-
-    <div class="controls">
-        <button id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
-        <button id="clearBtn">🧹 Limpiar</button>
+    <div class="nequi-box">
+        <div class="nequi-title">PAGA POR NEQUI</div>
+        <div class="nequi-number">314 815 7789</div>
     </div>
 
-    <div id="pie">Toca un número para marcarlo como vendido.</div>
+    <div id="grid" class="grid"></div>
+
+    <!-- Botones fuera de captura -->
+    <div class="controls">
+        <button onclick="descargar()">Descargar</button>
+        <button onclick="limpiar()">Limpiar</button>
+    </div>
 </div>
 
+<!-- CLON PARA LA CAPTURA -->
+<div id="clon"></div>
 
 <script>
-const KEY = "rifa_nums_vendidos_v3";
-const cont = document.getElementById("numeros");
-let vendidos = new Set(JSON.parse(localStorage.getItem(KEY) || "[]"));
-
-/* GENERAR NÚMEROS */
-for (let i = 0; i < 100; i++) {
-    const n = i.toString().padStart(2, "0");
-    const b = document.createElement("div");
-    b.className = "num";
-    b.textContent = n;
-
-    if (vendidos.has(n)) b.classList.add("vendido");
-
-    b.onclick = () => {
-        b.classList.toggle("vendido");
-        if (b.classList.contains("vendido")) vendidos.add(n);
-        else vendidos.delete(n);
-        localStorage.setItem(KEY, JSON.stringify([...vendidos]));
-    };
-
-    cont.appendChild(b);
+/* Crear la grid */
+const grid = document.getElementById("grid");
+for (let i = 1; i <= 100; i++) {
+    let div = document.createElement("div");
+    div.className = "num";
+    div.textContent = i;
+    div.onclick = () => toggle(i, div);
+    grid.appendChild(div);
 }
 
-/* DESCARGAR */
-document.getElementById("downloadBtn").onclick = async () => {
+/* Restaurar vendidos */
+window.onload = () => {
+    const vendidos = JSON.parse(localStorage.getItem("vendidos") || "[]");
+    vendidos.forEach(n => {
+        let el = [...document.querySelectorAll(".num")].find(x => x.textContent == n);
+        if (el) el.classList.add("vendido");
+    });
+};
+
+/* Marcar vendido */
+function toggle(num, el) {
+    el.classList.toggle("vendido");
+
+    const vendidos = [...document.querySelectorAll(".vendido")].map(x => x.textContent);
+    localStorage.setItem("vendidos", JSON.stringify(vendidos));
+}
+
+/* Limpiar */
+function limpiar() {
+    document.querySelectorAll(".num").forEach(x => x.classList.remove("vendido"));
+    localStorage.removeItem("vendidos");
+}
+
+/* Descargar */
+function descargar() {
     const card = document.getElementById("card");
+    const clon = document.getElementById("clon");
 
-    const clone = card.cloneNode(true);
-    clone.style.width = card.offsetWidth + "px";
-    clone.style.position = "absolute";
-    clone.style.left = "-9999px";
-    clone.style.top = "0";
+    clon.innerHTML = "";
+    const copia = card.cloneNode(true);
 
-    document.body.appendChild(clone);
-    await new Promise(r => setTimeout(r, 80));
+    copia.querySelector(".controls").style.display = "none";
+    copia.style.transform = "scale(3.05)";
+    copia.style.transformOrigin = "top left";
 
-    const canvas = await html2canvas(clone, { scale: 3, useCORS: true });
-    document.body.removeChild(clone);
+    clon.appendChild(copia);
+    clon.style.display = "block";
 
-    const final = document.createElement("canvas");
-    final.width = 1080;
-    final.height = 1920;
-    const ctx = final.getContext("2d");
+    html2canvas(clon, { scale: 1, useCORS: true }).then(canvas => {
+        let link = document.createElement("a");
+        link.download = "rifa.png";
+        link.href = canvas.toDataURL();
+        link.click();
 
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, final.width, final.height);
-
-    const scale = Math.min(final.width / canvas.width, final.height / canvas.height);
-    const w = canvas.width * scale;
-    const h = canvas.height * scale;
-
-    ctx.drawImage(canvas, (final.width - w) / 2, (final.height - h) / 2, w, h);
-
-    const a = document.createElement("a");
-    a.download = "rifa_1080x1920.png";
-    a.href = final.toDataURL("image/png");
-    a.click();
-};
-
-/* LIMPIAR */
-document.getElementById("clearBtn").onclick = () => {
-    if (!confirm("¿Limpiar todos los números vendidos?")) return;
-    vendidos.clear();
-    localStorage.setItem(KEY, "[]");
-    document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
-};
+        clon.style.display = "none";
+    });
+}
 </script>
 
 </body>
 </html>
+
+
 
 
 
