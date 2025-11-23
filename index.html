@@ -21,31 +21,31 @@
     margin:0;
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:flex-start;
     background:#0b2340;
     font-family:"Poppins", system-ui;
     padding:18px;
   }
 
-  /* ----- CONTENEDOR ----- */
+  /* ----- CONTENEDOR SIN RECORTES ----- */
   .card-wrap{
     width:360px;
-    height:640px;
-    max-height:90vh;
-    overflow-y:auto;
+    max-width:95vw;
     border-radius:18px;
     padding:14px;
     background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.94));
     box-shadow:0 12px 30px rgba(0,0,0,0.5);
+    overflow:visible !important;
+    height:auto !important;
   }
 
   .card{
     position:relative;
-    min-height:100%;
+    width:100%;
     border-radius:14px;
     padding:18px 14px;
-    overflow:hidden;
+    overflow:visible !important;
     background-color: rgba(255,255,255,0.88);
     display:flex;
     flex-direction:column;
@@ -170,7 +170,6 @@
     color:rgba(0,0,0,.6);
   }
 
-  /* OCULTAR SOLO EN DESCARGA */
   .no-capture{
     display:none !important;
   }
@@ -241,24 +240,28 @@
     localStorage.setItem(key,"[]");
   };
 
-  // descargar imagen PERFECTA
+  // descargar imagen 1080x1920 completa
   document.getElementById("downloadBtn").onclick=async()=>{
 
     const card=document.getElementById("card");
 
-    // Ocultar botones durante captura
+    card.style.height="auto";
+    card.style.overflow="visible";
+
     const controls = document.querySelector(".controls");
     controls.classList.add("no-capture");
 
-    await new Promise(r=>setTimeout(r,150)); // evita captura prematura
+    await new Promise(r=>setTimeout(r,200));
 
     const canvas = await html2canvas(card,{
       backgroundColor:null,
       scale:3,
-      useCORS:true
+      useCORS:true,
+      windowWidth:document.body.scrollWidth,
+      windowHeight:document.body.scrollHeight
     });
 
-    controls.classList.remove("no-capture"); // restaurar
+    controls.classList.remove("no-capture");
 
     // Crear lienzo final 1080×1920
     const final = document.createElement("canvas");
@@ -289,5 +292,6 @@
 
 </body>
 </html>
+
 
 
