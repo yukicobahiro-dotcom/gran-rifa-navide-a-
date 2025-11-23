@@ -10,12 +10,12 @@
 
 <style>
   :root{
-    --card-bg-img: url('https://i.imgur.com/mf3QMKb.jpeg'); /* tu imagen de fondo (solo dentro del recuadro) */
+    --card-bg-img: url('https://i.imgur.com/mf3QMKb.jpeg'); 
     --accent: #ffc107;
     --nequi-color: #003a73;
     --text: #0b2136;
   }
-  /* reset */
+
   *{box-sizing:border-box}
   body{
     margin:0;
@@ -23,195 +23,173 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#0b2340; /* fondo oscuro fuera del recuadro */
-    font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:#0b2340;
+    font-family:"Poppins", system-ui;
     padding:18px;
   }
 
-  /* tarjeta que será capturada para la imagen (aspect ratio 9:16) */
+  /* ----- CONTENEDOR CORREGIDO ------ */
   .card-wrap{
-    width: 360px;               /* tamaño visible en pantalla (se escala al descargar) */
-    aspect-ratio: 9 / 16;       /* mantiene 9:16 */
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.94));
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:360px;
+    height:640px;        /* visible sin cortar */
+    max-height:90vh;     /* nunca más grande que la pantalla */
+    overflow-y:auto;     /* aparece scroll si falta espacio */
+    border-radius:18px;
     padding:14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.94));
+    box-shadow:0 12px 30px rgba(0,0,0,0.5);
   }
 
-  /* el REC-CUADRO con GIF/imagen de fondo solo aquí */
-  .card {
-    width:100%;
-    height:100%;
-    border-radius:14px;
-    overflow:hidden;
+  .card{
     position:relative;
+    min-height:100%;      /* evita que se corte abajo */
+    border-radius:14px;
+    padding:18px 14px;
+    overflow:hidden;
+    background-color: rgba(255,255,255,0.88);
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:18px 14px;
-    background-color: rgba(255,255,255,0.88);
   }
 
-  /* fondo recortado (imagen de usuario) */
+  /* Fondo */
   .card::before{
     content:"";
     position:absolute;
     inset:0;
-    background-image: var(--card-bg-img);
-    background-size: cover;
-    background-position: center;
-    opacity:0.25; /* suaviza la imagen para que el texto resalte */
-    filter: saturate(0.9) contrast(0.95);
+    background-image:var(--card-bg-img);
+    background-size:cover;
+    background-position:center;
+    opacity:.25;
     z-index:0;
   }
 
   .content{
     position:relative;
-    z-index:2; /* encima del fondo */
+    z-index:2;
     width:100%;
     text-align:center;
-    color:var(--text);
   }
 
   .title{
-    font-family: "Montserrat", sans-serif;
+    font-family:"Montserrat",sans-serif;
     font-weight:900;
     font-size:22px;
-    letter-spacing:1.2px;
     color:#fff;
-    text-shadow: 0 3px 0 rgba(0,0,0,0.35), 0 6px 20px rgba(0,0,0,0.25);
-    margin:0 0 6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
+    letter-spacing:1px;
+    text-shadow:0 3px 0 rgba(0,0,0,.35),0 6px 20px rgba(0,0,0,.25);
+    margin-bottom:6px;
   }
 
   .meta{
-    margin:6px 0 12px;
     color:#fff;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    text-shadow:0 1px 2px rgba(0,0,0,.4);
     font-size:13px;
     font-weight:600;
+    margin-bottom:12px;
   }
 
-  .value {
-    font-family: "Montserrat", sans-serif;
+  .value{
+    font-family:"Montserrat";
     font-size:34px;
     font-weight:900;
-    color: var(--accent);
-    background: rgba(0,0,0,0.12);
-    display:inline-block;
+    color:var(--accent);
+    background:rgba(0,0,0,.12);
     padding:6px 12px;
     border-radius:10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     margin-top:6px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
   }
 
-  .nequi {
+  .nequi{
     margin-top:12px;
-    display:inline-block;
-    background: rgba(255,255,255,0.95);
+    background:white;
     padding:10px 14px;
     border-radius:12px;
     font-weight:900;
     color:var(--nequi-color);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
     font-size:18px;
+    box-shadow:0 6px 16px rgba(0,0,0,.18);
   }
 
-  /* tabla adaptable: usa grid 10x10 y las celdas escalan con width */
-  .grid {
+  /* Tabla 00–99 */
+  .grid{
     margin-top:14px;
     display:grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns:repeat(10,1fr);
     gap:8px;
     width:100%;
     padding:6px;
   }
 
   .cell{
-    background: rgba(255,255,255,0.95);
+    background:white;
     border-radius:10px;
+    padding:6px;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:6px;
     cursor:pointer;
-    user-select:none;
-    transition: transform .12s ease, background .12s ease;
-    box-shadow: 0 4px 8px rgba(3,12,25,0.08);
-    color: #0b3a66;
     font-weight:800;
-    font-size: calc(10px + 0.9vw); /* se adapta al contenedor */
+    color:#0b3a66;
+    font-size:15px;
+    box-shadow:0 4px 8px rgba(3,12,25,.08);
+    transition:.12s;
   }
 
-  .cell:active{ transform:scale(.98) }
   .cell.sold{
-    background: #d62828; /* rojo tachado */
-    color: #fff;
-    text-decoration: line-through;
-    box-shadow: 0 6px 18px rgba(214,40,40,0.28);
+    background:#d62828;
+    color:#fff;
+    text-decoration:line-through;
   }
 
-  /* controles */
   .controls{
-    margin-top:12px;
+    margin-top:14px;
     display:flex;
     gap:10px;
     justify-content:center;
-    align-items:center;
     flex-wrap:wrap;
   }
+
   .btn{
     background:#0077ff;
     color:white;
-    border:none;
     padding:8px 12px;
+    border:none;
     border-radius:12px;
     font-weight:800;
     cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,119,255,0.18);
-    font-size:14px;
+    box-shadow:0 6px 16px rgba(0,119,255,.18);
   }
-  .btn.clear{ background:#009688 }
+
+  .clear{ background:#009688 }
+
   .smallnote{
     margin-top:8px;
     font-size:11px;
-    color:rgba(0,0,0,0.6);
-  }
-
-  /* responsive: en pantallas más grandes, aumentar visual */
-  @media(min-width:900px){
-    .card-wrap{ width:420px }
-    .title{ font-size:28px }
-    .value{ font-size:40px }
-    .nequi{ font-size:20px }
+    color:rgba(0,0,0,.6);
   }
 </style>
 </head>
 <body>
 
-<div class="card-wrap" aria-hidden="false">
+<div class="card-wrap">
   <div class="card" id="card">
     <div class="content">
       <div class="title">🎄 GRAN RIFA NAVIDEÑA 🎄</div>
       <div class="meta">Premio: <b>$300.000</b> — Sorteo: <b>24 de diciembre</b></div>
+
       <div class="value">$10.000</div>
       <div class="nequi">Nequi: 3118503614</div>
 
-      <div class="grid" id="grid" aria-label="Cuadro 00 a 99"></div>
+      <div class="grid" id="grid"></div>
 
       <div class="controls">
         <button class="btn" id="downloadBtn">📥 Descargar imagen (1080×1920)</button>
-        <button class="btn clear" id="clearBtn">🔄 Limpiar marcados</button>
+        <button class="btn clear" id="clearBtn">🔄 Limpiar</button>
       </div>
 
-      <div class="smallnote">Toca un número para marcarlo como VENDIDO. Los cambios se guardan automáticamente.</div>
+      <div class="smallnote">Toca un número para marcarlo como vendido.</div>
     </div>
   </div>
 </div>
@@ -219,113 +197,71 @@
 <!-- html2canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-(function(){
-  const grid = document.getElementById('grid');
-  const storageKey = 'rifa_sold_v2'; // clave para guardar
-  // Cargar vendidos del localStorage (array de strings "00","01"...)
-  let sold = new Set();
-  try{
-    const raw = localStorage.getItem(storageKey);
-    if(raw){
-      const arr = JSON.parse(raw);
-      if(Array.isArray(arr)) arr.forEach(n=>sold.add(n));
-    }
-  }catch(e){
-    console.warn('No se pudo leer estado guardado', e);
+(()=>{
+  const grid=document.getElementById("grid");
+  const key="rifa_sold_v2";
+  let sold=new Set(JSON.parse(localStorage.getItem(key)||"[]"));
+
+  for(let i=0;i<100;i++){
+    const n=i.toString().padStart(2,"0");
+    const c=document.createElement("div");
+
+    c.className="cell";
+    c.textContent=n;
+    c.dataset.num=n;
+
+    if(sold.has(n)) c.classList.add("sold");
+
+    c.onclick=()=>{
+      if(c.classList.contains("sold")){ c.classList.remove("sold"); sold.delete(n); }
+      else{ c.classList.add("sold"); sold.add(n); }
+      localStorage.setItem(key,JSON.stringify([...sold]));
+    };
+
+    grid.appendChild(c);
   }
 
-  // Generar 00..99
-  for(let i=0;i<100;i++){
-    const n = i.toString().padStart(2,'0');
-    const div = document.createElement('div');
-    div.className = 'cell';
-    div.textContent = n;
-    div.dataset.num = n;
-    if(sold.has(n)) div.classList.add('sold');
+  document.getElementById("clearBtn").onclick=()=>{
+    if(!confirm("¿Limpiar todos los marcados?"))return;
+    sold.clear();
+    document.querySelectorAll(".cell.sold").forEach(el=>el.classList.remove("sold"));
+    localStorage.setItem(key,"[]");
+  };
 
-    div.addEventListener('click', ()=>{
-      if(div.classList.contains('sold')) {
-        div.classList.remove('sold');
-        sold.delete(n);
-      } else {
-        div.classList.add('sold');
-        sold.add(n);
-      }
-      // guardamos inmediatamente
-      saveState();
+  document.getElementById("downloadBtn").onclick=async()=>{
+    const card=document.getElementById("card");
+    const targetW=1080,targetH=1920;
+
+    const rect=card.getBoundingClientRect();
+    const scale=Math.min(targetW/rect.width,targetH/rect.height);
+
+    const canvas=await html2canvas(card,{
+      backgroundColor:null,
+      scale:Math.round(scale*window.devicePixelRatio),
+      useCORS:true
     });
 
-    grid.appendChild(div);
-  }
+    const final=document.createElement("canvas");
+    final.width=targetW;
+    final.height=targetH;
+    const ctx=final.getContext("2d");
 
-  function saveState(){
-    try{
-      localStorage.setItem(storageKey, JSON.stringify(Array.from(sold)));
-    }catch(e){
-      console.warn('No se pudo guardar localStorage', e);
-    }
-  }
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,targetW,targetH);
 
-  // Limpiar
-  document.getElementById('clearBtn').addEventListener('click', ()=>{
-    if(!confirm('¿Limpiar todos los marcados?')) return;
-    sold.clear();
-    document.querySelectorAll('.cell.sold').forEach(el=>el.classList.remove('sold'));
-    saveState();
-  });
+    const s=Math.min(targetW/canvas.width,targetH/canvas.height);
+    const w=canvas.width*s;
+    const h=canvas.height*s;
 
-  // Descargar como PNG 1080x1920
-  document.getElementById('downloadBtn').addEventListener('click', async ()=>{
-    const card = document.getElementById('card');
+    ctx.drawImage(canvas,(targetW-w)/2,(targetH-h)/2,w,h);
 
-    // calcular escala para obtener 1080x1920
-    const targetW = 1080;
-    const targetH = 1920;
-    const rect = card.getBoundingClientRect();
-    const scale = Math.min(targetW / rect.width, targetH / rect.height);
-
-    // Uso de html2canvas con opciones para lograr la resolución deseada
-    try{
-      const canvas = await html2canvas(card, {
-        backgroundColor: null,
-        scale: Math.round(scale * window.devicePixelRatio), // aumentar calidad
-        useCORS: true,
-        allowTaint: true,
-        logging: false
-      });
-
-      // Si canvas no tiene las dimensiones exactas, crear canvas final y pintar centrado
-      const finalCanvas = document.createElement('canvas');
-      finalCanvas.width = targetW;
-      finalCanvas.height = targetH;
-      const ctx = finalCanvas.getContext('2d');
-
-      // Fondo blanco para evitar bordes transparentes
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0,0, finalCanvas.width, finalCanvas.height);
-
-      // calcular posición para centrar la imagen renderizada dentro de 1080x1920
-      const scaleFactor = Math.min(finalCanvas.width/canvas.width, finalCanvas.height/canvas.height);
-      const drawW = Math.round(canvas.width * scaleFactor);
-      const drawH = Math.round(canvas.height * scaleFactor);
-      const dx = Math.round((finalCanvas.width - drawW)/2);
-      const dy = Math.round((finalCanvas.height - drawH)/2);
-
-      ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, dx, dy, drawW, drawH);
-
-      // descargar
-      const link = document.createElement('a');
-      link.download = 'rifa_1080x1920.png';
-      link.href = finalCanvas.toDataURL('image/png');
-      link.click();
-
-    }catch(err){
-      alert('Error al generar la imagen. Si la imagen de fondo no aparece, puede ser por restricciones de la URL (CORS). Puedo darte opciones: subir la imagen al repositorio o usar una versión alojada con CORS permitidos.');
-      console.error(err);
-    }
-  });
-
+    const a=document.createElement("a");
+    a.download="rifa_1080x1920.png";
+    a.href=final.toDataURL();
+    a.click();
+  };
 })();
 </script>
+
 </body>
 </html>
