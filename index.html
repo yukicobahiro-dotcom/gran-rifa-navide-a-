@@ -12,9 +12,14 @@
         background: #06244a;
         font-family: "Poppins", sans-serif;
         margin: 0;
-        display: flex;
-        justify-content: center;
         padding: 30px 0;
+    }
+
+    /* NUEVO: Centrado perfecto */
+    #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     #card {
@@ -116,26 +121,26 @@
         font-weight: 700;
     }
 
-    /* BOTONES NUEVOS */
-    #acciones {
+    .botones {
         margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 450px;
+        text-align: center;
     }
 
     .btn {
-        padding: 14px;
-        font-size: 18px;
+        padding: 12px 20px;
+        font-size: 17px;
+        border-radius: 12px;
         border: none;
-        border-radius: 10px;
         cursor: pointer;
+        width: 250px;
+        margin: 8px auto;
+        color: white;
         font-weight: 700;
+        display: block;
     }
 
-    .descargar { background: #ffca28; color: #000; }
-    .limpiar { background: #e53935; color: white; }
+    #downloadBtn { background: #0066ff; }
+    #clearBtn { background: #119c47; }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -143,7 +148,8 @@
 </head>
 <body>
 
-<div>
+<div id="wrapper">
+
     <div id="card">
         <div class="titulo">🎄 Gran Rifa Navideña 🎄</div>
 
@@ -160,11 +166,11 @@
         <div id="pie">Toca un número para marcarlo como vendido.</div>
     </div>
 
-    <!-- BOTONES ABAJO DE LA TARJETA -->
-    <div id="acciones">
-        <button class="btn descargar" onclick="descargarImagen()">📥 Descargar imagen</button>
-        <button class="btn limpiar" onclick="limpiarTodo()">🗑 Limpiar marcados</button>
+    <div class="botones">
+        <button id="downloadBtn" class="btn">📥 Descargar imagen (1080×1920)</button>
+        <button id="clearBtn" class="btn">🧹 Limpiar vendidos</button>
     </div>
+
 </div>
 
 <script>
@@ -191,9 +197,9 @@ for (let i = 0; i < 100; i++) {
 }
 
 /* -------------------------
-   DESCARGAR SOLO CON BOTÓN
+   DESCARGA 1080x1920 PERFECTA
 ------------------------- */
-async function descargarImagen() {
+document.getElementById("downloadBtn").onclick = async () => {
     const original = document.getElementById("card");
 
     const clone = original.cloneNode(true);
@@ -231,19 +237,15 @@ async function descargarImagen() {
     a.download = "rifa_1080x1920.png";
     a.href = final.toDataURL("image/png");
     a.click();
-}
+};
 
 /* -------------------------
-   LIMPIAR LOCALSTORAGE + PANTALLA
+   LIMPIAR
 ------------------------- */
-function limpiarTodo() {
-    localStorage.removeItem("rifa2024");
+document.getElementById("clearBtn").onclick = () => {
     document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
-}
-</script>
+    localStorage.rem
 
-</body>
-</html>
 
 
 
