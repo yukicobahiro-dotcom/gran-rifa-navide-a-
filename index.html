@@ -12,14 +12,19 @@
         background: #06244a;
         font-family: "Poppins", sans-serif;
         margin: 0;
-        padding: 30px 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
-    /* NUEVO: Centrado perfecto */
     #wrapper {
+        width: 100%;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     #card {
@@ -32,6 +37,7 @@
         position: relative;
         overflow: hidden;
         border: 3px solid white;
+        margin: 0 auto;
     }
 
     .titulo {
@@ -250,13 +256,4 @@ document.getElementById("clearBtn").onclick = () => {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
 
