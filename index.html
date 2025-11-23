@@ -13,25 +13,22 @@
         font-family: "Poppins", sans-serif;
         margin: 0;
         padding: 0;
-
-        /* FIX DEFINITIVO PARA GITHUB Y CELULAR */
         width: 100%;
-        min-width: 100vw;
-        overflow-x: hidden;
-
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: flex-start;
+        overflow-x: hidden; /* 🔥 EVITA EL DESPLAZAMIENTO LATERAL */
     }
 
     #wrapper {
         width: 100%;
-        max-width: 100%;
+        max-width: 480px; /* 🔥 CENTRADO REAL Y ESTABLE */
+        margin: 0 auto;
+        padding: 20px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding-bottom: 40px;
     }
 
     #card {
@@ -135,12 +132,8 @@
     }
 
     .botones {
-        margin-top: 22px;
-        width: 100%;
+        margin-top: 20px;
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
     }
 
     .btn {
@@ -149,7 +142,7 @@
         border-radius: 12px;
         border: none;
         cursor: pointer;
-        width: 260px;
+        width: 250px;
         margin: 8px auto;
         color: white;
         font-weight: 700;
@@ -191,9 +184,7 @@
 </div>
 
 <script>
-/* -------------------------
-   GENERAR NÚMEROS
-------------------------- */
+/* GENERAR NÚMEROS */
 const cont = document.getElementById("numeros");
 let estado = JSON.parse(localStorage.getItem("rifa2024")) || {};
 
@@ -213,9 +204,7 @@ for (let i = 0; i < 100; i++) {
     cont.appendChild(b);
 }
 
-/* -------------------------
-   DESCARGA 1080x1920 PERFECTA
-------------------------- */
+/* DESCARGA 1080x1920 */
 document.getElementById("downloadBtn").onclick = async () => {
     const original = document.getElementById("card");
 
@@ -256,9 +245,7 @@ document.getElementById("downloadBtn").onclick = async () => {
     a.click();
 };
 
-/* -------------------------
-   LIMPIAR
-------------------------- */
+/* LIMPIAR */
 document.getElementById("clearBtn").onclick = () => {
     document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
     localStorage.removeItem("rifa2024");
@@ -267,6 +254,5 @@ document.getElementById("clearBtn").onclick = () => {
 
 </body>
 </html>
-
 
 
