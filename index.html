@@ -13,9 +13,15 @@
         font-family: "Poppins", sans-serif;
         margin: 0;
         padding: 0;
+
+        /* FIX DEFINITIVO PARA GITHUB Y CELULAR */
         width: 100%;
+        min-width: 100vw;
+        overflow-x: hidden;
+
         display: flex;
         justify-content: center;
+        align-items: flex-start;
     }
 
     #wrapper {
@@ -25,6 +31,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding-bottom: 40px;
     }
 
     #card {
@@ -128,8 +135,12 @@
     }
 
     .botones {
-        margin-top: 20px;
+        margin-top: 22px;
+        width: 100%;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .btn {
@@ -138,7 +149,7 @@
         border-radius: 12px;
         border: none;
         cursor: pointer;
-        width: 250px;
+        width: 260px;
         margin: 8px auto;
         color: white;
         font-weight: 700;
@@ -256,4 +267,6 @@ document.getElementById("clearBtn").onclick = () => {
 
 </body>
 </html>
+
+
 
