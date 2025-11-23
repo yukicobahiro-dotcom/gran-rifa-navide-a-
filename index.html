@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rifa 00-99 - Estilo Lotería (Blanco/Azul)</title>
+<style>
+  :root{
+    --accent: #007acc;
+    --accent-dark: #005f9e;
+    --bg: #ffffff;
+    --card: #f6fbff;
+    --text: #082033;
+    --muted: #6b7280;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Poppins", "Segoe UI", Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    padding:18px;
+  }
+  .page{
+    width:100%;
+    max-width:900px;
+  }
+
+  header{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    margin-bottom:10px;
+  }
+  .gif-wrap img{
+    width:160px;
+    height:auto;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  }
+  h1{
+    margin:0;
+    color:var(--accent);
+    font-size:20px;
+    letter-spacing:1px;
+    text-align:center;
+  }
+  .subtitle{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+    text-align:center;
+  }
+
+  .card{
+    background:var(--card);
+    border:2px solid var(--accent);
+    border-radius:14px;
+    padding:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.04);
+  }
+  .top-info{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .top-info .left{
+    display:flex; gap:12px; align-items:center;
+  }
+  .badge{
+    background:white;
+    padding:10px 12px;
+    border-radius:10px;
+    border:2px solid var(--accent);
+    display:inline-block;
+    font-weight:700;
+  }
+  .price{ color:#d97706; font-size:16px; }
+  .nequi{ color:#007a73; font-size:16px; font-weight:800 }
+
+  .meta{
+    color:var(--muted); font-size:13px; margin-top:8px;
+  }
+
+  /* tabla estilo lotería */
+  .grid-wrap{
+    margin-top:14px;
+    overflow:auto;
+    padding-bottom:8px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(10, 1fr);
+    gap:10px;
+    padding:8px;
+  }
+  .cell{
+    background: #ffffff;
+    border: 2px solid var(--accent);
+    border-radius:12px;
+    padding:10px 4px;
+    text-align:center;
+    font-weight:800;
+    color:var(--accent);
+    cursor:pointer;
+    user-select:none;
+    transition: transform .12s ease, background .12s ease, color .12s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    font-size:16px;
+  }
+  .cell:active{ transform: scale(.98); }
+  .cell.sold{
+    background:var(--accent);
+    color:white;
+    border-color:var(--accent-dark);
+    text-decoration: line-through;
+    transform:translateY(-2px) scale(1.02);
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:14px;
+  }
+  button{
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:10px 12px;
+    border-radius:10px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(2, 120, 200, 0.12);
+  }
+  button.alt{ background:#06a08a; }
+  button.ghost{
+    background:transparent;
+    color:var(--accent);
+    border:2px dashed var(--accent);
+  }
+  .small{ padding:8px 10px; font-size:14px }
+
+  .hint{ text-align:center; color:var(--muted); font-size:13px; margin-top:8px }
+
+  /* responsive */
+  @media (max-width:520px){
+    .cell{ font-size:18px; padding:14px 6px; border-radius:10px; }
+    .gif-wrap img{ width:120px; }
+    .page{ padding:6px; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="gif-wrap">
+        <!-- GIF que pediste -->
+        <img src="https://i.imgur.com/cG3oRZk.gif" alt="animacion">
+      </div>
+      <h1>RIFA 00 — 99 — Estilo Lotería</h1>
+      <div class="subtitle">Sorteo: 24 de diciembre — Premio: <b>$300.000</b></div>
+    </header>
+
+    <div class="card">
+      <div class="top-info">
+        <div class="left">
+          <div class="badge price">🎟 Valor: <span style="color:#000"> $10.000</span></div>
+          <div class="badge nequi">📲 Nequi: <span style="color:#000">3118503614</span></div>
+        </div>
+        <div class="meta">Toca un número para marcarlo como <b>VENDIDO</b>. Se guarda automáticamente.</div>
+      </div>
+
+      <div class="grid-wrap">
+        <div id="grid" class="grid" aria-label="Cuadro de números 00-99"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btnPng">🖼 Descargar imagen (PNG)</button>
+        <button id="btnExport" class="small">📤 Exportar JSON</button>
+        <button id="btnImport" class="small ghost">📥 Importar JSON</button>
+        <button id="btnTxt" class="small">📄 Descargar TXT</button>
+        <button id="btnClear" class="small alt">🔄 Limpiar marcados</button>
+      </div>
+
+      <p class="hint">Puedes compartir la imagen por WhatsApp. Si importas el JSON aquí, restauras el estado exacto de marcados.</p>
+    </div>
+  </div>
+
+<script>
+/* ********* configuración ********* */
+const STORAGE_KEY = 'rifa_00_99_state_v1'; // cambia la versión si actualizas estructura
+const GIF_URL = 'https://i.imgur.com/cG3oRZk.gif';
+const TITLE = 'RIFA 00 — 99 — Estilo Lotería';
+const PRICE_TEXT = 'Valor: $10.000';
+const NEQUI_TEXT = 'Nequi: 3118503614';
+/* ********************************* */
+
+const gridEl = document.getElementById('grid');
+const btnPng = document.getElementById('btnPng');
+const btnExport = document.getElementById('btnExport');
+const btnImport = document.getElementById('btnImport');
+const btnClear = document.getElementById('btnClear');
+const btnTxt = document.getElementById('btnTxt');
+
+let soldSet = new Set();
+
+// crear celdas 00-99
+function buildGrid(){
+  gridEl.innerHTML = '';
+  for(let i=0;i<100;i++){
+    const n = String(i).padStart(2,'0');
+    const div = document.createElement('div');
+    div.className = 'cell';
+    div.id = 'c' + n;
+    div.textContent = n;
+    div.onclick = () => {
+      toggleSold(n);
+    };
+    gridEl.appendChild(div);
+  }
+}
+
+// toggle y guardar
+function toggleSold(n){
+  const el = document.getElementById('c'+n);
+  if(soldSet.has(n)){
+    soldSet.delete(n);
+    el.classList.remove('sold');
+  } else {
+    soldSet.add(n);
+    el.classList.add('sold');
+  }
+  saveState();
+}
+
+// guardar en localStorage
+function saveState(){
+  try{
+    const arr = Array.from(soldSet);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }catch(e){
+    console.error('No se pudo guardar localStorage', e);
+  }
+}
+
+// cargar estado de localStorage
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const arr = JSON.parse(raw);
+    if(!Array.isArray(arr)) return;
+    soldSet = new Set(arr);
+    // reflejar en UI
+    for(const n of soldSet){
+      const el = document.getElementById('c'+n);
+      if(el) el.classList.add('sold');
+    }
+  }catch(e){
+    console.error('Error leyendo estado', e);
+  }
+}
+
+// limpiar
+function clearAll(){
+  if(!confirm('¿Seguro quieres limpiar todos los marcados?')) return;
+  soldSet.clear();
+  document.querySelectorAll('.cell.sold').forEach(x=>x.classList.remove('sold'));
+  saveState();
+}
+
+// Exportar JSON (estado)
+function exportJSON(){
+  const data = { savedAt: new Date().toISOString(), sold: Array.from(soldSet) };
+  const txt = JSON.stringify(data);
+  const blob = new Blob([txt], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'rifa_00_99_estado.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Importar JSON (pegar)
+function importJSON(){
+  const txt = prompt('Pega aquí el JSON exportado previamente (estado). Al confirmar se REEMPLAZARÁ el estado actual.');
+  if(!txt) return;
+  try{
+    const obj = JSON.parse(txt);
+    if(!obj || !Array.isArray(obj.sold)){
+      alert('JSON inválido: debe contener { sold: [...] }');
+      return;
+    }
+    soldSet = new Set(obj.sold.map(x=>String(x).padStart(2,'0')));
+    // reflejar en UI
+    document.querySelectorAll('.cell.sold').forEach(x=>x.classList.remove('sold'));
+    for(const n of soldSet){
+      const el = document.getElementById('c'+n);
+      if(el) el.classList.add('sold');
+    }
+    saveState();
+    alert('Estado importado correctamente.');
+  }catch(err){
+    alert('JSON inválido o error al parsear.');
+  }
+}
+
+// Descargar TXT (estado simple)
+function downloadTXT(){
+  let content = 'ESTADO RIFA 00-99\\n\\n';
+  for(let i=0;i<100;i++){
+    const n = String(i).padStart(2,'0');
+    content += `${n} - ${soldSet.has(n)?'VENDIDO':'DISPONIBLE'}\\n`;
+  }
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'estado_rifa_00_99.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Descargar PNG: generamos un SVG con todo (titulo, precio, nequi y tabla), luego lo convertimos a PNG
+function downloadPNG(){
+  // parametros visuales
+  const svgW = 1200;
+  const padding = 40;
+  const cellGap = 12;
+  const cellSize = Math.floor((svgW - padding*2 - cellGap*9) / 10);
+  const svgH = padding*2 + 120 + (cellSize*10 + cellGap*9);
+  // start svg
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}">`;
+  svg += `<rect width="100%" height="100%" fill="#ffffff"/>`;
+  // title
+  svg += `<text x="${svgW/2}" y="${padding+36}" font-size="28" text-anchor="middle" fill="${'#007acc'}" font-weight="700">${escapeXml(TITLE)}</text>`;
+  // meta box
+  svg += `<rect x="${padding}" y="${padding+50}" width="${svgW - padding*2}" height="60" rx="10" fill="#f6fbff" stroke="#007acc" stroke-width="3"/>`;
+  svg += `<text x="${padding+24}" y="${padding+90}" font-size="20" fill="#d97706" font-weight="700">${escapeXml(PRICE_TEXT)}</text>`;
+  svg += `<text x="${svgW - padding - 220}" y="${padding+90}" font-size="20" fill="#007a73" font-weight="700">${escapeXml(NEQUI_TEXT)}</text>`;
+  // tabla
+  const startX = padding;
+  const startY = padding + 140;
+  for(let r=0;r<10;r++){
+    for(let c=0;c<10;c++){
+      const n = String(r*10 + c).padStart(2,'0');
+      const x = startX + c*(cellSize + cellGap);
+      const y = startY + r*(cellSize + cellGap);
+      const sold = soldSet.has(n);
+      const fill = sold ? '#007acc' : '#ffffff';
+      const txtColor = sold ? '#ffffff' : '#007acc';
+      svg += `<rect x="${x}" y="${y}" rx="10" width="${cellSize}" height="${cellSize}" fill="${fill}" stroke="#007acc" stroke-width="3"/>`;
+      svg += `<text x="${x + cellSize/2}" y="${y + cellSize/2 + 8}" font-size="${Math.floor(cellSize*0.28)}" text-anchor="middle" fill="${txtColor}" font-weight="800">${n}</text>`;
+      if(sold){
+        // small strike line for sold
+        svg += `<line x1="${x+8}" y1="${y+cellSize/2}" x2="${x+cellSize-8}" y2="${y+cellSize/2}" stroke="${txtColor}" stroke-width="3" />`;
+      }
+    }
+  }
+  svg += `</svg>`;
+
+  // create image from svg, draw on canvas and save PNG
+  const svgBlob = new Blob([svg], {type: 'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(svgBlob);
+  const img = new Image();
+  img.onload = function(){
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    // white background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.drawImage(img,0,0);
+    canvas.toBlob(function(blob){
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rifa_00_99.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }, 'image/png', 1);
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = function(e){
+    alert('Error al generar la imagen. Intenta abrir la página en otra app o en el navegador del teléfono.');
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+// escape para texto en svg
+function escapeXml(unsafe) {
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+    }
+  });
+}
+
+// Init
+buildGrid();
+loadState();
+
+// eventos botones
+btnPng.onclick = downloadPNG;
+btnExport.onclick = exportJSON;
+btnImport.onclick = importJSON;
+btnClear.onclick = clearAll;
+btnTxt.onclick = downloadTXT;
+
+// también guardar antes de cerrar (por si)
+window.addEventListener('beforeunload', saveState);
+
+// función para descargar txt (ya definida más abajo)
+function downloadTXT(){
+  let content = 'ESTADO RIFA 00-99\\n\\n';
+  for(let i=0;i<100;i++){
+    const n = String(i).padStart(2,'0');
+    content += `${n} - ${soldSet.has(n)?'VENDIDO':'DISPONIBLE'}\\n`;
+  }
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'estado_rifa_00_99.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
