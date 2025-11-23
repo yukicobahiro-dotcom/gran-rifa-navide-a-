@@ -17,13 +17,29 @@
 
     #card {
         width: 360px;
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(6px);
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
         border-radius: 20px;
+        padding: 20px;
         position: relative;
         overflow: hidden;
         border: 3px solid white;
+    }
+
+    /* Fondo navideño SOLO dentro del card */
+    #card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('https://i.imgur.com/mf3QMKb.jpeg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.25;
+        z-index: 0;
+    }
+
+    #card * {
+        position: relative;
+        z-index: 2; /* Todo queda por encima del fondo */
     }
 
     .titulo {
@@ -60,15 +76,15 @@
         color: #003976;
     }
 
+    /* GRID ESTABLE & RESPONSIVO */
     .grid {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 8px;
         margin-bottom: 20px;
     }
 
     .num {
-        width: 100%;
         padding: 10px 0;
         background: white;
         border-radius: 12px;
@@ -76,7 +92,6 @@
         font-weight: 600;
         color: #003976;
         cursor: pointer;
-        border: 2px solid transparent;
         font-size: 15px;
         transition: 0.2s;
     }
@@ -104,13 +119,8 @@
         font-weight: 600;
     }
 
-    #downloadBtn {
-        background: #0066ff;
-    }
-
-    #clearBtn {
-        background: #119c47;
-    }
+    #downloadBtn { background: #0066ff; }
+    #clearBtn { background: #119c47; }
 
     #pie {
         text-align: center;
@@ -144,32 +154,41 @@
 
 
 <script>
-// GENERAR NÚMEROS
+const KEY = "rifa_nums_vendidos_v3";
 const cont = document.getElementById("numeros");
+let vendidos = new Set(JSON.parse(localStorage.getItem(KEY) || "[]"));
+
+/* GENERAR NÚMEROS */
 for (let i = 0; i < 100; i++) {
+    const n = i.toString().padStart(2, "0");
     const b = document.createElement("div");
     b.className = "num";
-    b.textContent = i.toString().padStart(2, "0");
-    b.onclick = () => b.classList.toggle("vendido");
+    b.textContent = n;
+
+    if (vendidos.has(n)) b.classList.add("vendido");
+
+    b.onclick = () => {
+        b.classList.toggle("vendido");
+        if (b.classList.contains("vendido")) vendidos.add(n);
+        else vendidos.delete(n);
+        localStorage.setItem(KEY, JSON.stringify([...vendidos]));
+    };
+
     cont.appendChild(b);
 }
 
-
-// DESCARGAR (VERSIÓN ESTABLE)
+/* DESCARGAR */
 document.getElementById("downloadBtn").onclick = async () => {
     const card = document.getElementById("card");
 
     const clone = card.cloneNode(true);
-    const cloneControls = clone.querySelector(".controls");
-    if (cloneControls) cloneControls.style.display = "none";
-
-    clone.style.width = card.getBoundingClientRect().width + "px";
+    clone.style.width = card.offsetWidth + "px";
     clone.style.position = "absolute";
     clone.style.left = "-9999px";
     clone.style.top = "0";
 
     document.body.appendChild(clone);
-    await new Promise(r => setTimeout(r, 60));
+    await new Promise(r => setTimeout(r, 80));
 
     const canvas = await html2canvas(clone, { scale: 3, useCORS: true });
     document.body.removeChild(clone);
@@ -194,14 +213,18 @@ document.getElementById("downloadBtn").onclick = async () => {
     a.click();
 };
 
-// LIMPIAR
+/* LIMPIAR */
 document.getElementById("clearBtn").onclick = () => {
+    if (!confirm("¿Limpiar todos los números vendidos?")) return;
+    vendidos.clear();
+    localStorage.setItem(KEY, "[]");
     document.querySelectorAll(".num").forEach(n => n.classList.remove("vendido"));
 };
 </script>
 
 </body>
 </html>
+
 
 
 
